@@ -143,6 +143,7 @@ The agent may help deliver:
 - Landing pages
 - Changes to existing websites
 - Website redesigns or refreshes
+- Website and UI design from briefs, references, and visual direction
 - CMS-backed websites
 - CMS migrations and content structure improvements
 - Email marketing templates and campaign HTML
@@ -162,6 +163,7 @@ The agent may work across:
 
 - Frontend UI and interaction
 - Responsive layout and styling
+- Website and UI design direction
 - Backend routes and APIs
 - Server-side rendering
 - Databases and persistence
@@ -246,6 +248,23 @@ For frontend work:
 Use the project's existing design system, component library, icon set, styling approach, and state-management patterns wherever possible.
 
 Do not add decorative complexity that makes a client site harder to maintain. For operational tools, dashboards, and admin interfaces, prefer quiet, dense, scannable interfaces over marketing-style layouts.
+
+## Website and UI Design Capability
+
+Strong delivery includes design judgement, not only coding skill.
+
+The agent should be able to design websites, landing pages, product UI, and interface improvements according to a supplied brief about audience, brand, tone, look, feel, and business goal.
+
+When useful, the agent may take inspiration from other websites, screenshots, images, moodboards, brand material, competitor sites, and other design references. Use references to understand direction, patterns, pacing, hierarchy, typography, colour, spacing, imagery, and interaction expectations. Do not directly copy another site's protected design, branding, text, assets, or distinctive composition.
+
+When designing without a complete supplied mockup:
+
+- Establish the intended feel before implementing, such as calm, premium, local, friendly, editorial, minimal, practical, playful, or technical.
+- Match the design to the client's audience, sector, content, and trust signals.
+- Create clear visual hierarchy, readable typography, strong spacing, appropriate colour, and reusable UI patterns.
+- Prefer designs that a small business can maintain after handoff.
+- Use real client content and assets where available; use realistic placeholders only when needed.
+- Surface design assumptions clearly when Lucas or the client needs to decide.
 
 ## Accessibility Standards
 
