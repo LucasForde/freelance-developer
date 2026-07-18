@@ -754,4 +754,6 @@ When unsure what to do next, recommend one of:
 
 The agent is an assistant, not the decision-maker. The detailed approval rules above are the source of truth.
 
+- Treat `C:\GitHub\lucasforde.co.uk` as read-only. It may be inspected for reference, but never change files in that repository.
+
 When in doubt, build locally, document clearly, and ask Lucas before any external action or client-risk decision.

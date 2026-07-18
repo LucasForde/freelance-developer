@@ -72,14 +72,54 @@ const navigation = [
       </section>
     </main>
 
-    <footer>
-      <div class="content">© <span data-current-year></span> Company name</div>
-    </footer>
-
     <script is:inline>
       const links = document.querySelectorAll('[data-nav-link]');
       const sections = document.querySelectorAll('[data-section]');
-      document.querySelector('[data-current-year]').textContent = new Date().getFullYear();
+      const scrollDuration = 1000;
+      const easingInStrength = 6;
+      const easingOutStrength = 10;
+      let scrollFrame;
+      let visibleSectionId = 'home';
+
+      const easeInOutExpo = (progress) => {
+        if (progress === 0 || progress === 1) return progress;
+        if (progress < 0.5) return 2 ** (easingInStrength * (progress * 2 - 1)) / 2;
+        return (2 - 2 ** (-easingOutStrength * (progress * 2 - 1))) / 2;
+      };
+
+      const cancelScroll = () => {
+        if (!scrollFrame) return;
+
+        cancelAnimationFrame(scrollFrame);
+        scrollFrame = undefined;
+        setActiveLink(visibleSectionId);
+      };
+
+      const scrollToSection = (section) => {
+        cancelScroll();
+        setActiveLink(section.id);
+
+        const start = window.scrollY;
+        const headerHeight = document.querySelector('.site-header').offsetHeight;
+        const destination = Math.max(0, section.offsetTop - headerHeight);
+        const distance = destination - start;
+        const startTime = performance.now();
+
+        const step = (time) => {
+          const progress = Math.min((time - startTime) / scrollDuration, 1);
+          window.scrollTo(0, start + distance * easeInOutExpo(progress));
+
+          if (progress < 1) {
+            scrollFrame = requestAnimationFrame(step);
+          } else {
+            scrollFrame = undefined;
+            visibleSectionId = section.id;
+            setActiveLink(section.id);
+          }
+        };
+
+        scrollFrame = requestAnimationFrame(step);
+      };
 
       const setActiveLink = (id) => {
         links.forEach((link) => {
@@ -94,12 +134,31 @@ const navigation = [
       const observer = new IntersectionObserver(
         (entries) => {
           const activeSection = entries.find((entry) => entry.isIntersecting);
-          if (activeSection) setActiveLink(activeSection.target.id);
+          if (!activeSection) return;
+
+          visibleSectionId = activeSection.target.id;
+          if (!scrollFrame) setActiveLink(visibleSectionId);
         },
         { rootMargin: '-50% 0px -49% 0px' },
       );
 
       sections.forEach((section) => observer.observe(section));
+
+      links.forEach((link) => {
+        link.addEventListener('click', (event) => {
+          const section = document.querySelector(link.hash);
+          if (!section) return;
+
+          event.preventDefault();
+          if (location.hash !== link.hash) history.pushState(null, '', link.hash);
+          scrollToSection(section);
+        });
+      });
+
+      window.addEventListener('wheel', cancelScroll, { passive: true });
+      window.addEventListener('touchstart', cancelScroll, { passive: true });
+      window.addEventListener('pointerdown', cancelScroll);
+      window.addEventListener('keydown', cancelScroll);
     </script>
   </body>
 </html>
