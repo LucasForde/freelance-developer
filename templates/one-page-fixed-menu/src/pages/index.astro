@@ -1,0 +1,286 @@
+---
+import '../styles/global.css';
+
+const navigation = [
+  { label: 'Home', href: '#home', index: '01' },
+  { label: 'About', href: '#about', index: '02' },
+  { label: 'Services', href: '#services', index: '03' },
+  { label: 'Contact', href: '#contact', index: '04' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta
+      name="description"
+      content="A high-fidelity one-page wireframe template with fixed navigation and automatic scroll tracking."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <title>One-page wireframe</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class="site-header" data-header data-state="expanded">
+      <div class="site-header__inner">
+        <a class="logo-placeholder" href="#home" aria-label="Go to Home">
+          <span>[ LOGO ]</span>
+        </a>
+
+        <nav class="site-navigation" aria-label="Primary navigation">
+          <ul>
+            {
+              navigation.map((item, position) => (
+                <li>
+                  <a
+                    href={item.href}
+                    class:list={['navigation-link', { 'is-active': position === 0 }]}
+                    data-nav-link
+                    aria-current={position === 0 ? 'page' : undefined}
+                  >
+                    <span class="navigation-link__index" aria-hidden="true">{item.index}</span>
+                    <span>{item.label}</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="page-section page-section--home" id="home" aria-labelledby="home-title" data-section>
+        <div class="section-shell section-layout section-layout--hero">
+          <div class="section-copy">
+            <p class="eyebrow"><span aria-hidden="true"></span> Wireframe / 001</p>
+            <h1 id="home-title">A clear headline goes here.</h1>
+            <p class="lead">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae justo ac arcu
+              elementum posuere. This copy block establishes the primary message and visual hierarchy.
+            </p>
+            <div class="button-row">
+              <a class="wire-button wire-button--primary" href="#services">[ Primary action ]</a>
+              <a class="wire-button" href="#about">[ Secondary ]</a>
+            </div>
+            <p class="annotation">↑ ACTION GROUP / REPLACE WITH FINAL CONTENT</p>
+          </div>
+
+          <div class="image-placeholder image-placeholder--hero" role="img" aria-label="Hero image placeholder">
+            <span class="module-label">MODULE / HERO IMAGE</span>
+            <span class="image-placeholder__mark" aria-hidden="true">×</span>
+            <span class="image-placeholder__caption">[ 16 : 10 MEDIA PLACEHOLDER ]</span>
+          </div>
+        </div>
+        <p class="section-number" aria-hidden="true">01</p>
+      </section>
+
+      <section class="page-section page-section--about" id="about" aria-labelledby="about-title" data-section>
+        <div class="section-shell section-layout section-layout--about">
+          <div class="about-module" aria-label="About content module">
+            <div class="about-module__header">
+              <span>CONTENT MODULE</span>
+              <span>02 — A</span>
+            </div>
+            <div class="image-placeholder image-placeholder--portrait" role="img" aria-label="Portrait image placeholder">
+              <span class="image-placeholder__mark" aria-hidden="true">×</span>
+              <span class="image-placeholder__caption">[ IMAGE ]</span>
+            </div>
+            <div class="wire-lines" aria-hidden="true">
+              <span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+
+          <div class="section-copy section-copy--about">
+            <p class="eyebrow"><span aria-hidden="true"></span> About / 002</p>
+            <h2 id="about-title">Built around a simple, useful story.</h2>
+            <p class="lead">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed posuere, velit a ultrices
+              consequat, lectus neque luctus erat, sit amet feugiat ipsum sem sed justo.
+            </p>
+            <p>
+              Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci
+              eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh.
+            </p>
+            <dl class="stat-grid">
+              <div><dt>01</dt><dd>Clear message</dd></div>
+              <div><dt>02</dt><dd>Useful detail</dd></div>
+              <div><dt>03</dt><dd>Proof point</dd></div>
+            </dl>
+          </div>
+        </div>
+        <p class="section-number" aria-hidden="true">02</p>
+      </section>
+
+      <section class="page-section page-section--services" id="services" aria-labelledby="services-title" data-section>
+        <div class="section-shell">
+          <div class="section-heading-row">
+            <div>
+              <p class="eyebrow"><span aria-hidden="true"></span> Services / 003</p>
+              <h2 id="services-title">Three focused service blocks.</h2>
+            </div>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. A short introduction can explain
+              the offer before visitors scan the individual modules.
+            </p>
+          </div>
+
+          <div class="service-grid">
+            <article class="service-card">
+              <div class="service-card__meta"><span>01</span><span>[ MODULE ]</span></div>
+              <div class="service-card__image image-placeholder" role="img" aria-label="Service image placeholder">
+                <span class="image-placeholder__mark" aria-hidden="true">×</span>
+              </div>
+              <h3>Service title one</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat.</p>
+              <a href="#contact">View service <span aria-hidden="true">→</span></a>
+            </article>
+            <article class="service-card">
+              <div class="service-card__meta"><span>02</span><span>[ MODULE ]</span></div>
+              <div class="service-card__image image-placeholder" role="img" aria-label="Service image placeholder">
+                <span class="image-placeholder__mark" aria-hidden="true">×</span>
+              </div>
+              <h3>Service title two</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat.</p>
+              <a href="#contact">View service <span aria-hidden="true">→</span></a>
+            </article>
+            <article class="service-card">
+              <div class="service-card__meta"><span>03</span><span>[ MODULE ]</span></div>
+              <div class="service-card__image image-placeholder" role="img" aria-label="Service image placeholder">
+                <span class="image-placeholder__mark" aria-hidden="true">×</span>
+              </div>
+              <h3>Service title three</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat.</p>
+              <a href="#contact">View service <span aria-hidden="true">→</span></a>
+            </article>
+          </div>
+        </div>
+        <p class="section-number" aria-hidden="true">03</p>
+      </section>
+
+      <section class="page-section page-section--contact" id="contact" aria-labelledby="contact-title" data-section>
+        <div class="section-shell section-layout section-layout--contact">
+          <div class="section-copy">
+            <p class="eyebrow"><span aria-hidden="true"></span> Contact / 004</p>
+            <h2 id="contact-title">Start the next conversation.</h2>
+            <p class="lead">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Use this space for a concise final
+              invitation and practical contact information.
+            </p>
+            <div class="contact-details">
+              <p><span>Email</span>name@example.com</p>
+              <p><span>Telephone</span>+00 (0) 0000 000000</p>
+              <p><span>Location</span>Town / Region</p>
+            </div>
+          </div>
+
+          <form class="contact-module" data-contact-form>
+            <div class="contact-module__header">
+              <span>[ CONTACT MODULE ]</span>
+              <span>04 — B</span>
+            </div>
+            <label>
+              <span>Name</span>
+              <input type="text" name="name" placeholder="Enter your name" />
+            </label>
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" placeholder="name@example.com" />
+            </label>
+            <label>
+              <span>Message</span>
+              <textarea name="message" rows="4" placeholder="Enter a short message"></textarea>
+            </label>
+            <button class="wire-button wire-button--primary" type="submit">[ Send enquiry ]</button>
+            <p class="form-note" data-form-note aria-live="polite">FORM PLACEHOLDER / CONNECT TO YOUR ENDPOINT</p>
+          </form>
+        </div>
+        <p class="section-number" aria-hidden="true">04</p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="section-shell site-footer__inner">
+        <div class="logo-placeholder logo-placeholder--footer" aria-hidden="true">[ LOGO ]</div>
+        <p>[ COPYRIGHT © 20XX / COMPANY NAME / ALL RIGHTS RESERVED ]</p>
+        <a href="#home">Back to top ↑</a>
+      </div>
+    </footer>
+
+    <script is:inline>
+      const header = document.querySelector('[data-header]');
+      const sections = [...document.querySelectorAll('[data-section]')];
+      const navigationLinks = [...document.querySelectorAll('[data-nav-link]')];
+      const contactForm = document.querySelector('[data-contact-form]');
+      const formNote = document.querySelector('[data-form-note]');
+      let frameRequested = false;
+      let currentSectionId = 'home';
+
+      const setActiveLink = (sectionId) => {
+        if (sectionId === currentSectionId && document.querySelector('[data-nav-link].is-active')) return;
+
+        currentSectionId = sectionId;
+        navigationLinks.forEach((link) => {
+          const isActive = link.getAttribute('href') === `#${sectionId}`;
+          link.classList.toggle('is-active', isActive);
+
+          if (isActive) {
+            link.setAttribute('aria-current', 'page');
+          } else {
+            link.removeAttribute('aria-current');
+          }
+        });
+      };
+
+      const updatePageState = () => {
+        frameRequested = false;
+        const atTop = window.scrollY <= 1;
+        header?.classList.toggle('is-compact', !atTop);
+        header?.setAttribute('data-state', atTop ? 'expanded' : 'compact');
+
+        if (atTop) {
+          setActiveLink('home');
+          return;
+        }
+
+        const headerHeight = header?.getBoundingClientRect().height ?? 0;
+        const marker = window.scrollY + headerHeight + window.innerHeight * 0.2;
+        let activeSection = sections[0];
+
+        sections.forEach((section) => {
+          if (section.offsetTop <= marker) activeSection = section;
+        });
+
+        const pageBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
+        if (pageBottom) activeSection = sections.at(-1);
+        if (activeSection?.id) setActiveLink(activeSection.id);
+      };
+
+      const requestPageUpdate = () => {
+        if (frameRequested) return;
+        frameRequested = true;
+        window.requestAnimationFrame(updatePageState);
+      };
+
+      window.addEventListener('scroll', requestPageUpdate, { passive: true });
+      window.addEventListener('resize', requestPageUpdate);
+      window.addEventListener('hashchange', requestPageUpdate);
+
+      contactForm?.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (formNote) formNote.textContent = 'DEMO ONLY / FORM SUBMISSION PREVENTED';
+      });
+
+      updatePageState();
+    </script>
+  </body>
+</html>
+
