@@ -104,8 +104,7 @@ const navigation = [
         setActiveLink(section.id);
 
         const start = window.scrollY;
-        const headerHeight = document.querySelector('.site-header').offsetHeight;
-        const destination = Math.max(0, section.offsetTop - headerHeight);
+        const destination = section.offsetTop;
         const distance = destination - start;
         const startTime = performance.now();
 

@@ -72,7 +72,6 @@ nav a.is-active {
   display: flex;
   align-items: center;
   background: #fff;
-  scroll-margin-top: var(--header-height);
 }
 
 .page-section:nth-child(even) {
