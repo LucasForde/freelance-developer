@@ -75,7 +75,8 @@ const navigation = [
     <script is:inline>
       const links = document.querySelectorAll('[data-nav-link]');
       const sections = document.querySelectorAll('[data-section]');
-      const scrollDuration = 1000;
+      const baseScrollDuration = 800;
+      const distanceMultiplier = 1.5;
       const easingInStrength = 6;
       const easingOutStrength = 10;
       const easingInStart = 2 ** -easingInStrength;
@@ -106,10 +107,15 @@ const navigation = [
         const start = window.scrollY;
         const destination = section.offsetTop;
         const distance = destination - start;
+        const viewportDistance = Math.abs(distance) / window.innerHeight;
+        const scrollDuration =
+          viewportDistance <= 1
+            ? baseScrollDuration * viewportDistance
+            : baseScrollDuration * distanceMultiplier ** (viewportDistance - 1);
         const startTime = performance.now();
 
         const step = (time) => {
-          const progress = Math.min((time - startTime) / scrollDuration, 1);
+          const progress = scrollDuration === 0 ? 1 : Math.min((time - startTime) / scrollDuration, 1);
           window.scrollTo(0, start + distance * easeInOutExpo(progress));
 
           if (progress < 1) {

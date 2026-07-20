@@ -1,6 +1,6 @@
 # One-page fixed-menu template
 
-A minimal Astro template with a fixed header, four full-height sections, asymmetric 1000ms exponential menu scrolling and an automatic active menu state.
+A minimal Astro template with a fixed header, four full-height sections, distance-based exponential menu scrolling and an automatic active menu state.
 
 ## Run locally
 
