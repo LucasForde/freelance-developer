@@ -78,12 +78,16 @@ const navigation = [
       const scrollDuration = 1000;
       const easingInStrength = 6;
       const easingOutStrength = 10;
+      const easingInStart = 2 ** -easingInStrength;
       let scrollFrame;
       let visibleSectionId = 'home';
 
       const easeInOutExpo = (progress) => {
         if (progress === 0 || progress === 1) return progress;
-        if (progress < 0.5) return 2 ** (easingInStrength * (progress * 2 - 1)) / 2;
+        if (progress < 0.5) {
+          const easedProgress = 2 ** (easingInStrength * (progress * 2 - 1));
+          return (easedProgress - easingInStart) / (2 * (1 - easingInStart));
+        }
         return (2 - 2 ** (-easingOutStrength * (progress * 2 - 1))) / 2;
       };
 
