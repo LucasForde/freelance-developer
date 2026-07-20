@@ -75,8 +75,8 @@ const navigation = [
     <script is:inline>
       const links = document.querySelectorAll('[data-nav-link]');
       const sections = document.querySelectorAll('[data-section]');
-      const baseScrollDuration = 800;
-      const distanceMultiplier = 1.5;
+      const baseScrollDuration = 1000;
+      const additionalViewportDuration = 250;
       const easingInStrength = 6;
       const easingOutStrength = 10;
       const easingInStart = 2 ** -easingInStrength;
@@ -111,7 +111,7 @@ const navigation = [
         const scrollDuration =
           viewportDistance <= 1
             ? baseScrollDuration * viewportDistance
-            : baseScrollDuration * distanceMultiplier ** (viewportDistance - 1);
+            : baseScrollDuration + additionalViewportDuration * (viewportDistance - 1);
         const startTime = performance.now();
 
         const step = (time) => {
