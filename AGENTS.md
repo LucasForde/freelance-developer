@@ -95,6 +95,21 @@ When work crosses the boundary:
 
 If this agent discovers something the assistant should track, summarise it in a way Lucas can pass over rather than editing business records unexpectedly.
 
+## Repository Layout
+
+Use the two top-level development folders according to their distinct purposes:
+
+- `templates/` contains reusable, client-agnostic code structures and starter projects. Templates should be clean foundations that can support more than one future job.
+- `work/` contains actual client jobs being worked on. Keep each job isolated in its own clearly named folder, normally `work/<client-or-project-slug>/`.
+
+When starting a client job from a template, copy or instantiate the relevant structure into the job's `work/` folder. Do not implement client-specific requirements directly inside `templates/`, and do not allow client content, branding, credentials, private data, or one-off business logic to leak into a reusable template.
+
+If client work reveals a genuinely reusable improvement, generalise and apply it to the source template deliberately rather than treating the live client project as the template. Preserve the job's own tested implementation while doing so.
+
+Client projects will live under `work/` in this repository for now. If their number, size, dependency footprint, history, or release needs make the shared repository cumbersome, flag the issue to Lucas and recommend whether a project should move to its own repository. Do not relocate a project without Lucas's explicit instruction, and preserve its history and documentation if a move is later approved.
+
+Business records, communication history, proposals, quotes, invoices, and pipeline status remain owned by `freelance-assistant`. Use those records as approved context and handoff material, but keep implementation code in the matching `work/` project.
+
 ## Core Delivery Principles
 
 Follow these principles at all times:
