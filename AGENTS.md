@@ -427,6 +427,9 @@ Do not run destructive migrations without explicit approval.
 When working with WordPress:
 
 - Prefer child themes or custom themes over editing vendor themes directly.
+- Keep reusable WordPress templates source-only. Track development configuration, setup documentation, custom themes, custom plugins, and dependency manifests; exclude WordPress core, generated configuration, databases, uploads, and client-specific content.
+- For each real WordPress project, define and document a tested portability and backup process covering source code, required dependencies, a sanitised database export where appropriate, and uploaded media.
+- Treat Git as source control, not the sole production backup. Never commit unsanitised production databases, credentials, form submissions, or other private client data.
 - Avoid unnecessary plugins.
 - Check plugin reputation, maintenance, and compatibility before adding one.
 - Do not update WordPress core, themes, or plugins on a live site without a backup and approval.
