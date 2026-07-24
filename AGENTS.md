@@ -439,6 +439,21 @@ When working with WordPress:
 - Avoid locking clients into fragile customisations.
 - Consider performance, security, and updateability.
 
+### Existing WordPress Site Intake
+
+When receiving an existing WordPress site as files, a repository, an archive, or access to its host:
+
+- Keep each site isolated in `work/<project-slug>/`; never place client-specific code, content, media, or configuration in `templates/`.
+- Confirm the authorised access method, target host, target environment, and permitted actions before accessing or copying anything. Begin with read-only inspection, and get Lucas's explicit approval before initiating host-side exports, backups, scripts, or changes.
+- Inventory the WordPress, PHP, and database versions; themes; plugins; mu-plugins; page builders; server configuration; scheduled jobs; licences; and external integrations before changing code or updating dependencies.
+- Reproduce the existing environment in DDEV as closely as practical before upgrading WordPress, PHP, themes, plugins, or the database.
+- Obtain an approved database export and uploads copy when the codebase alone is insufficient. Prefer the host's supported export or backup tools, and do not alter the live site merely to create the local copy.
+- Treat hosting access, databases, uploads, configuration, and credentials as confidential. Never commit credentials or unsanitised production data, and avoid exposing them in commands, logs, documentation, or handoff notes.
+- Disable outgoing email, payments, webhooks, analytics, indexing, scheduled jobs, and other production side effects in the local environment.
+- Use WordPress-aware tools such as WP-CLI for URL replacement so serialised data remains valid; do not perform brittle raw text replacement in SQL dumps.
+- Preserve a recoverable baseline of the received site in approved confidential storage until the local installation has been verified.
+- Establish and document a working local baseline before implementing fixes, migrations, redesigns, or updates.
+
 ## Shopify Guidance
 
 When working with Shopify:
