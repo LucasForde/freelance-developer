@@ -1,0 +1,25 @@
+# WordPress core is installed with WP-CLI.
+/wp-admin/
+/wp-includes/
+/*.php
+/license.txt
+/readme.html
+
+# Generated and local content.
+/wp-content/cache/
+/wp-content/languages/
+/wp-content/upgrade/
+/wp-content/uploads/
+/wp-content/debug.log
+/wp-content/index.php
+/wp-content/plugins/index.php
+/wp-content/themes/index.php
+
+# Themes and plugins bundled with WordPress.
+/wp-content/themes/twenty*/
+/wp-content/plugins/akismet/
+/wp-content/plugins/hello.php
+
+# Local database exports.
+/*.sql
+/*.sql.gz
