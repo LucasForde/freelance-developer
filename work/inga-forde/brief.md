@@ -95,14 +95,14 @@ The private high-resolution source images are held outside this development proj
 
 The 102 JPEGs have been flattened into one directory and renamed according to the six confirmed image galleries:
 
-- Beauty Queen of Leenane: `beauty-queen-of-leenane-01.jpg` to `beauty-queen-of-leenane-07.jpg` (7 images)
-- Kalk Bay: `kalk-bay-01.jpg` to `kalk-bay-18.jpg` (18 images)
+- Beauty Queen of Leenane: `documentary-beauty-queen-of-leenane-01.jpg` to `documentary-beauty-queen-of-leenane-07.jpg` (7 images)
+- Kalk Bay: `documentary-kalk-bay-01.jpg` to `documentary-kalk-bay-18.jpg` (18 images)
 - Landscape: `landscape-01.jpg` to `landscape-14.jpg` (14 images)
 - Macro: `macro-01.jpg` to `macro-45.jpg` (45 images)
-- Families: `families-01.jpg` to `families-07.jpg` (7 images)
-- Women: `women-01.jpg` to `women-11.jpg` (11 images)
+- Families: `portraiture-families-01.jpg` to `portraiture-families-07.jpg` (7 images)
+- Women: `portraiture-women-01.jpg` to `portraiture-women-11.jpg` (11 images)
 
-Do not create general `documentary-*` or `portraiture-*` image groups unless new assets are supplied for those parent pages. Their cards and hero areas should use explicitly selected images from the relevant child galleries without duplicating the source files.
+The `documentary-` and `portraiture-` prefixes express the site hierarchy; they do not identify separate general image groups. Do not create standalone parent-page image groups unless new assets are supplied specifically for them. Documentary and Portraiture cards and hero areas should use explicitly selected images from the relevant child galleries without duplicating the source files.
 
 ## Enlarged Photograph Viewer
 
