@@ -10,8 +10,20 @@ The website does not require a CMS. Content and gallery changes can be maintaine
 
 - Initial structure and visual direction confirmed.
 - Reference-site preferences and gallery interaction requirements recorded.
-- Content, photography selections, brand assets, technical stack, hosting and delivery arrangements are not yet confirmed.
+- Technical stack, hosting target, development URL, contact method and image-handling direction confirmed.
+- Final content, photography selections, brand assets, detailed visual design and launch arrangements are not yet confirmed.
 - No price, timeline, deployment or ongoing-support commitment is recorded here.
+
+## Confirmed Technical Direction
+
+- Use Astro to generate a fully static website.
+- Use TypeScript for content schemas, image metadata and interactive behaviour.
+- Use plain CSS with custom properties; do not add a utility CSS framework without a later demonstrated need.
+- Use typed, source-managed content rather than a CMS, database or server-side application.
+- Use PhotoSwipe 5 as the starting point for the enlarged photograph viewer, customised to meet the interaction, accessibility and motion requirements in this brief.
+- Host the finished static site on GitHub Pages at `https://ingaforde.co.uk/`.
+- Publish the development review build at `https://ingaforde.co.uk/staging/` while retaining the production holding page until launch is approved.
+- Use a direct email link to `ingamareeforde@gmail.com`; do not add a contact form or form-processing service.
 
 ## Site Structure
 
@@ -91,7 +103,7 @@ Reference: [ryan-prince.com](https://www.ryan-prince.com/)
 
 ## Source Image Inventory
 
-The private high-resolution source images are held outside this development project at `C:\GitHub\freelance-assistant\clients\inga-forde\images\hi-res`. That directory is ignored by Git in the `freelance-assistant` repository.
+The private high-resolution source images are held inside this development project at `work/inga-forde/hi-res-images/`. The directory contains local source material, is ignored by Git and must not be included in a public deployment.
 
 The 102 JPEGs have been flattened into one directory and renamed according to the six confirmed image galleries:
 
@@ -103,6 +115,85 @@ The 102 JPEGs have been flattened into one directory and renamed according to th
 - Women: `portraiture-women-01.jpg` to `portraiture-women-11.jpg` (11 images)
 
 The `documentary-` and `portraiture-` prefixes express the site hierarchy; they do not identify separate general image groups. Do not create standalone parent-page image groups unless new assets are supplied specifically for them. Documentary and Portraiture cards and hero areas should use explicitly selected images from the relevant child galleries without duplicating the source files.
+
+`documentary-kalk-bay-18.jpg` was the exceptional 23,400 × 15,600 source image. Lucas resized the local copy to 5616 × 3744 for consistency with the other Kalk Bay photographs; the original is backed up elsewhere. The remaining source images do not require manual resizing solely for website use.
+
+## Image Preparation and Delivery
+
+### Private Sources
+
+- Treat `hi-res-images/` as private build input, not public website content.
+- Do not copy the directory into `public/`, the production document root or the deployed build.
+- Do not commit these source files to Git.
+- Source JPEG byte size does not affect visitor performance when the originals are never served. It may affect only local storage, image-processing time and build memory.
+- Do not recompress source JPEGs merely to reduce their local byte size; avoid an unnecessary lossy generation before producing the final web derivatives.
+- Keep the current filenames and aspect ratios unless Lucas explicitly approves another content change.
+
+### Photoshop
+
+- Use Photoshop only when a photograph needs a creative decision such as retouching, colour correction, an intentional crop or image-specific sharpening.
+- Do not manually create every responsive size or thumbnail in Photoshop.
+- If a source must be manually reduced, preserve its aspect ratio, convert it to sRGB, keep resampling enabled and use Photoshop's `Automatic` reduction method. `Bicubic Sharper (reduction)` is an acceptable alternative when visual inspection shows that it produces the better result.
+- Do not use `Preserve Details 2.0` for reduction; it is intended primarily for enlargement.
+- Pixels-per-inch metadata does not affect website display. Pixel dimensions are the relevant measurement.
+- Inspect any manually resized photograph at 100% before accepting it.
+
+### Automatic Derivatives
+
+Use a build-time image processor capable of high-quality downsampling, controlled output quality and AVIF, WebP and JPEG output. Configure it to preserve aspect ratios and prevent enlargement.
+
+The confirmed implementation direction is a local Sharp/libvips preparation script maintained with the website project. Configure Lanczos 3 reduction and explicitly enable `withoutEnlargement`; do not rely on defaults for the enlargement safeguard. The script should read the private source directory from documented local configuration rather than embedding a machine-specific absolute path in application code.
+
+Generate responsive candidates broadly as follows, omitting any candidate larger than its source:
+
+- Gallery overview images: 480, 768 and 1024 pixels wide.
+- Landing-page and project covers: 768, 1280 and 1920 pixels wide.
+- Enlarged viewer images: 1280, 1920, 2560 and 3200 pixels wide.
+- Social-sharing images: a separately approved 1200 × 630 crop where required.
+
+These widths are an initial implementation specification and may be refined after the final layouts are measured. Do not generate files simply because a nominal width exists; generate only candidates used by the implemented `srcset` and `sizes` rules.
+
+When a source width falls between configured candidates, include its intrinsic width as the final candidate, up to the maximum required width. This avoids discarding usable source resolution merely because the next standard candidate would exceed the source. Never upscale an image to create that candidate.
+
+- Generate overview thumbnails automatically from the same approved source image; do not maintain a separate manual thumbnail collection.
+- Preserve each photograph's natural aspect ratio in gallery overviews. Do not force square or uniform crops.
+- Create a dedicated art-directed cover crop only when the design genuinely requires one and Lucas has approved the crop.
+- Convert sources with a reliable embedded colour profile to sRGB for public output.
+- A metadata scan indicates that 30 current sources have neither an embedded ICC profile nor an EXIF sRGB declaration: all seven Beauty Queen of Leenane images, thirteen Macro images and ten Women images. Do not blindly colour-convert these untagged sources. Visually verify representative files and explicitly approve the working-profile assumption before applying it to the affected group.
+- A standard sRGB output profile may be embedded where it improves reliable browser colour reproduction; it is useful colour information rather than private metadata.
+- Remove GPS data and unnecessary EXIF or other private metadata from public derivatives.
+- Use visual quality settings suitable for a photography portfolio rather than choosing compression solely for the smallest possible file.
+- Visually compare representative portraits, macro photographs, landscapes, monochrome work and detailed documentary photographs before applying final encoder settings to the complete collection.
+
+Exact JPEG, WebP and AVIF quality values are deliberately not fixed at the brief stage. Establish them during implementation by generating representative samples, comparing them with the source and, where useful, a Photoshop reference export, and inspecting them both at 100% and at their intended browser display sizes. Check fine detail, gradients, skin tones, monochrome transitions, sharpening, colour fidelity and visible compression artefacts. Record the approved processor, resize kernel, output formats and quality values in the project documentation once the comparison is complete.
+
+### Loading and Layout
+
+- Use `srcset` and accurate `sizes` values so the browser selects an appropriate derivative for the rendered image slot and device pixel density.
+- Include intrinsic width and height information so the browser can reserve the correct aspect ratio and avoid layout movement.
+- Load the initial homepage or page-defining image eagerly when it is the page's primary visual.
+- Lazy-load non-critical gallery images below the initial viewport.
+- In the enlarged viewer, load the selected image promptly and preload at most the immediately adjacent images where testing shows a useful benefit.
+- Never load all full-size viewer images when a gallery first opens.
+
+### Build and Deployment Boundary
+
+The required flow is:
+
+```text
+Private hi-res source
+→ local or framework image processor
+→ responsive AVIF/WebP/JPEG derivatives
+→ finished website build
+→ public host
+```
+
+- Deploy only the finished website and its generated derivatives.
+- GitHub Actions cannot access the ignored private source directory. Generate the final responsive derivatives locally with the approved Sharp script, write a manifest containing their public paths and intrinsic dimensions, and commit only those public derivatives and the manifest to the website repository.
+- Astro should consume the generated manifest to produce the required `<picture>`, `srcset`, `sizes`, width and height markup. The remote GitHub Actions build must not require the private source originals.
+- Regenerate and visually review derivatives deliberately when photographs, widths, formats or encoder settings change; do not make every ordinary Astro build rewrite the complete derivative set.
+- Before every production deployment, inspect the final build artefact and confirm that it contains no `hi-res-images/` directory, private source originals, unexpectedly large JPEGs or unwanted metadata.
+- A generated derivative may retain a recognisable source-derived filename, but it should be emitted through the build pipeline rather than copied directly from the private source directory.
 
 ## Enlarged Photograph Viewer
 
@@ -155,6 +246,23 @@ A likely direction is one carefully chosen opening photograph, Inga's name, a sh
 - Keep adding, removing, reordering and captioning photographs straightforward for a developer.
 - Do not add CMS dependencies, accounts, editor interfaces or third-party content services without a later confirmed requirement.
 
+## Hosting and Deployment
+
+- The canonical production URL is `https://ingaforde.co.uk/`.
+- The development review URL is `https://ingaforde.co.uk/staging/`.
+- Configure Astro's `site` value with the production origin.
+- Use `/staging` as the staging base path and `/` as the production base path. Internal links and manually referenced public assets must remain base-path aware in both environments.
+- Use a custom GitHub Actions workflow to assemble and deploy the GitHub Pages artefact. During development, it should contain the holding page at the root and the review build beneath `/staging/`.
+- Apply `noindex, nofollow` metadata and a matching robots rule to the staging build. This discourages indexing but does not make staging private.
+- Replace the holding page with the approved root build only when launch is explicitly approved.
+- Configuring or running a deployment remains a separate approval step from local implementation and verification.
+
+## Contact
+
+- Provide a clear email link to `ingamareeforde@gmail.com` on the Contact page.
+- A prefilled subject such as `Photography enquiry` is acceptable.
+- Do not add a contact form, form provider, server function or personal-data submission workflow.
+
 ## Accessibility and Usability
 
 - Use semantic navigation, links and buttons.
@@ -168,14 +276,9 @@ A likely direction is one carefully chosen opening photograph, Inga's name, a sh
 
 ## Image Performance
 
-- Generate appropriately sized responsive image variants.
-- Use modern image formats where they preserve the intended photographic quality.
-- Avoid downloading full-resolution gallery images before they are needed.
-- Preload only the most important opening image and, where useful, the adjacent viewer images.
-- Prevent layout movement by reserving each image's dimensions or aspect ratio.
-- Retain suitable source files outside the public build if public originals would be unnecessarily large or expose unwanted metadata.
-
-Exact image-processing and colour-management requirements must be confirmed using the supplied master files.
+- Follow the preparation, derivative, loading and deployment rules in `Image Preparation and Delivery`.
+- Treat image quality and download size as jointly important: the photography must remain faithful while each visitor receives only the dimensions needed for their display context.
+- Validate the chosen formats and quality settings visually and with a production build before treating the image pipeline as complete.
 
 ## Search and Sharing Basics
 
@@ -196,20 +299,16 @@ Exact image-processing and colour-management requirements must be confirmed usin
 - Introductory text for the Documentary and Portraiture landing pages.
 - Project text for Kalk Bay and Beauty Queen of Leenane.
 - Biography copy and portrait, if one is to be shown.
-- Contact details and preferred enquiry route.
 - Social profile links, if required.
 - Copyright wording and the desired policy on image downloads.
 - Favicon and social-sharing image.
-- Domain and hosting details.
 
 ## Decisions Still Required
 
-- Technical stack and hosting target.
 - Exact typography and warm-white colour value.
 - Whether any galleries loop from the final image back to the first.
 - Whether enlargement views need unique URLs that can be bookmarked or shared.
 - Whether captions are always visible, optionally revealed or used only where supplied.
-- Whether the Contact page uses a form, an email link or both.
 - Whether image protection measures such as disabled context menus or watermarks are wanted; these have usability costs and cannot prevent determined copying.
 - Analytics and cookie requirements.
 - Privacy, copyright and any other required policy content.
@@ -233,4 +332,4 @@ Exact image-processing and colour-management requirements must be confirmed usin
 - The site does not depend on a CMS.
 - Responsive images and gallery loading avoid unnecessarily downloading all full-size assets at once.
 
-These criteria are provisional until the content, stack and final visual design have been approved.
+These criteria are provisional until the content and final visual design have been approved.
