@@ -40,7 +40,7 @@ The website does not require a CMS. Content and gallery changes can be maintaine
 - Biography
 - Contact
 
-`Photography` should be a usable landing page as well as the parent navigation item for the portfolio. `Documentary` and `Portraiture` are also landing pages rather than image galleries in their own right:
+`Photography` should be an accessible submenu control in the primary navigation rather than a visual landing page. The submenu links directly to all six galleries. `Documentary` and `Portraiture` are submenu group labels rather than image galleries or card-based landing pages:
 
 - Documentary leads to Kalk Bay and Beauty Queen of Leenane.
 - Portraiture leads to Families and Women.
@@ -54,7 +54,8 @@ This produces six image galleries: Kalk Bay, Beauty Queen of Leenane, Landscape,
 - Restrained, image-first presentation.
 - Generous whitespace.
 - Minimal interface that does not compete with the photographs.
-- Keep overview and landing-page photographs small, centred within consistent grid cells and aligned with the other thumbnails in their row.
+- Present gallery-overview photographs as consistent square crops in a close, orderly grid with enough whitespace to keep the page calm.
+- Keep landing-page cover photographs restrained and aligned with the other covers in their row.
 - Do not use large page imagery outside the enlarged photograph viewer.
 - Preserve the natural aspect ratios of photographs rather than forcing uniform crops in enlarged views.
 - Avoid a long, scrolling project-index experience like Pieter Hugo's website.
@@ -95,14 +96,15 @@ Reference: [ryan-prince.com](https://www.ryan-prince.com/)
 
 ## Gallery Overview Requirements
 
-- The main Photography page should provide a clean overview of Documentary, Landscape, Macro and Portraiture.
-- The Documentary landing page should introduce and link to Kalk Bay and Beauty Queen of Leenane using a selected cover image for each project.
-- The Portraiture landing page should introduce and link to Families and Women using a selected cover image for each gallery.
+- Do not use image-card indexes for Photography, Documentary or Portraiture; navigation to the six galleries belongs in the Photography submenu.
 - Each of the six image galleries should have a clean overview of its photographs.
+- Begin each gallery page directly with its thumbnail grid beneath the primary navigation. Do not show breadcrumbs, a category eyebrow, a visible gallery title or a photograph count above the grid.
+- Retain the gallery name in the document title and a visually hidden page heading so removing the visible header does not remove the page's accessible identity.
 - The overview should make it easy to scan the collection without becoming visually busy.
-- Use a deterministic CSS grid with a fixed column count at each breakpoint rather than masonry or independently sized rows.
-- Place every thumbnail in a consistent row-height cell and centre it both vertically and horizontally, preserving its natural aspect ratio without cropping.
-- Keep thumbnails deliberately small with generous white space around them.
+- Use a deterministic CSS grid rather than masonry or independently sized rows.
+- Show five equal square thumbnails per row on desktop. Reduce to three and then two columns where the viewport cannot support five usable targets.
+- Use the same restrained gap between rows and columns: close enough to read as a coherent photographic set, with enough breathing room to keep the page calm.
+- Generate a centred square crop for each overview thumbnail. The crop applies only to the overview; the enlarged photograph must retain its complete natural aspect ratio.
 - Selecting a photograph should open a spacious, near-full-screen enlargement experience.
 - Column count and spacing should respond to viewport size while staying consistent within each row.
 - An enlarged photograph should return the visitor to the same gallery and, where practical, the same scroll position when closed.
@@ -150,11 +152,11 @@ Use a build-time image processor capable of high-quality downsampling, controlle
 
 The confirmed implementation direction is a local Sharp/libvips preparation script maintained with the website project. Configure Lanczos 3 reduction and explicitly enable `withoutEnlargement`; do not rely on defaults for the enlargement safeguard. The script should read the private source directory from documented local configuration rather than embedding a machine-specific absolute path in application code.
 
-Generate responsive candidates broadly as follows, omitting any candidate larger than its source:
+Generate only candidates used by the implemented layouts, omitting any candidate larger than its source:
 
-- Gallery overview images: 480, 768 and 1024 pixels wide.
-- Landing-page and project covers: 768, 1280 and 1920 pixels wide.
-- Enlarged viewer images: 1280, 1920, 2560 and 3200 pixels wide.
+- Gallery overview thumbnails: centred square crops at 320, 640 and 960 pixels in AVIF, WebP and JPEG.
+- Landing-page and project covers: use the natural-aspect JPEG candidates shared with the viewer and let `sizes` select the appropriate file.
+- Enlarged viewer images: natural-aspect JPEG candidates at 768, 1280, 1920, 2560 and 3200 pixels wide.
 - Social-sharing images: a separately approved 1200 × 630 crop where required.
 
 These widths are an initial implementation specification and may be refined after the final layouts are measured. Do not generate files simply because a nominal width exists; generate only candidates used by the implemented `srcset` and `sizes` rules.
@@ -162,7 +164,8 @@ These widths are an initial implementation specification and may be refined afte
 When a source width falls between configured candidates, include its intrinsic width as the final candidate, up to the maximum required width. This avoids discarding usable source resolution merely because the next standard candidate would exceed the source. Never upscale an image to create that candidate.
 
 - Generate overview thumbnails automatically from the same approved source image; do not maintain a separate manual thumbnail collection.
-- Preserve each photograph's natural aspect ratio in gallery overviews. Do not force square or uniform crops.
+- Use the approved centred square crop for gallery-overview thumbnails. If an individual photograph later needs a different focal position, record that as an explicit image-specific crop decision rather than altering the source.
+- Preserve each photograph's natural aspect ratio in landing-page covers and enlarged views.
 - Create a dedicated art-directed cover crop only when the design genuinely requires one and Lucas has approved the crop.
 - Convert sources with a reliable embedded colour profile to sRGB for public output.
 - A metadata scan indicates that 30 current sources have neither an embedded ICC profile nor an EXIF sRGB declaration: all seven Beauty Queen of Leenane images, thirteen Macro images and ten Women images. Representative files from the affected groups were visually compared and Lucas approved treating the current untagged sources as sRGB for this build on 18 August 2026. This remains a documented working-profile assumption rather than evidence about the sources' original colour space.
@@ -241,7 +244,9 @@ A likely direction is one carefully chosen opening photograph, Inga's name, a sh
 ## Navigation
 
 - Keep the primary navigation simple and predictable.
-- Make the Photography landing page directly accessible; do not make it available only through a hover-dependent dropdown.
+- Use Photography as a submenu control rather than a link to a card-based portfolio index.
+- Include direct submenu links to Kalk Bay, Beauty Queen of Leenane, Landscape, Macro, Families and Women; group the documentary and portraiture links under clear labels.
+- The submenu must work by click, keyboard and touch and must not depend on hover. It should close with Escape and when focus or pointer interaction moves outside it.
 - Ensure all navigation works with keyboard and touch input.
 - Provide a clear current-page state.
 - Keep gallery navigation separate from the site's primary navigation.
@@ -299,11 +304,9 @@ A likely direction is one carefully chosen opening photograph, Inga's name, a sh
 
 - Inga's preferred public name or wordmark.
 - Opening/homepage photograph.
-- Cover images for Photography, Documentary and Portraiture, plus the six image galleries.
-- Final photograph selection for each of the six image galleries.
+- Final photograph selection for each of the six gallery overviews.
 - Required gallery order and image order.
 - Image titles, captions, dates, locations and credits where applicable.
-- Introductory text for the Documentary and Portraiture landing pages.
 - Project text for Kalk Bay and Beauty Queen of Leenane.
 - Biography copy and portrait, if one is to be shown.
 - Social profile links, if required.
@@ -324,13 +327,15 @@ A likely direction is one carefully chosen opening photograph, Inga's name, a sh
 ## Preliminary Acceptance Criteria
 
 - All confirmed pages and photography sections are present and reachable.
-- Photography is both a landing page and a navigable parent section.
-- Documentary is a landing page that leads to Kalk Bay and Beauty Queen of Leenane.
-- Portraiture is a landing page that leads to Families and Women.
+- Photography is an accessible submenu control with direct links to all six galleries and no card-based index.
+- Documentary groups Kalk Bay and Beauty Queen of Leenane within the submenu rather than using a separate image-card page.
+- Portraiture groups Families and Women within the submenu rather than using a separate image-card page.
 - Landscape and Macro are available as direct galleries.
 - The interface uses a white or visually indistinguishable near-white background and restrained visual styling.
-- Gallery and section overview pages use small, uncropped thumbnails centred within consistent CSS-grid cells.
-- Each responsive grid uses a consistent column count within a row and remains clear across mobile and desktop layouts.
+- Gallery pages use centred square thumbnail crops in a consistent five-column desktop grid.
+- Gallery pages contain no visible breadcrumb trail, category label, gallery heading or photograph count above the grid.
+- Gallery rows and columns use the same close, breathable gap; the grid reduces to three and then two columns on narrower screens.
+- Thumbnail cropping does not affect the natural aspect ratio of enlarged photographs.
 - Selecting a photograph opens an uncluttered enlarged view.
 - Pointer users can navigate using half-viewport cursor-arrow regions that extend across the photograph to the viewport edge, without finding small previous or next buttons.
 - Keyboard users can navigate and close the viewer.
