@@ -50,17 +50,19 @@ This produces six image galleries: Kalk Bay, Beauty Queen of Leenane, Landscape,
 
 ## Confirmed Visual Direction
 
-- Warm white background rather than soft grey.
+- White background, or an imperceptibly off-white value if later visual testing requires it.
 - Restrained, image-first presentation.
 - Generous whitespace.
 - Minimal interface that does not compete with the photographs.
+- Keep overview and landing-page photographs small, centred within consistent grid cells and aligned with the other thumbnails in their row.
+- Do not use large page imagery outside the enlarged photograph viewer.
 - Preserve the natural aspect ratios of photographs rather than forcing uniform crops in enlarged views.
 - Avoid a long, scrolling project-index experience like Pieter Hugo's website.
 - Do not use the visual or structural direction of Rhiannon Adam's or Daniel Meadows' websites.
 - Do not use decorative animation, parallax, scroll reveals, autoplay carousels or other unnecessary movement.
 - The only desired animation is the horizontal transition from one enlarged photograph to the previous or next photograph.
 
-The exact typefaces, text colour, spacing scale and any accent colour remain to be selected after reviewing Inga's photographs and any existing identity material.
+The exact typefaces, text colour, spacing scale and any accent colour remain to be selected after reviewing Inga's photographs and any existing identity material. The background direction is settled as white or visually indistinguishable from white.
 
 ## Reference Sites
 
@@ -71,8 +73,9 @@ Reference: [nadavkander.com](https://www.nadavkander.com/)
 Use as the primary interaction reference for enlarged photographs:
 
 - The pointer indicates the available previous or next action with a directional arrow.
-- The user can click a large left or right navigation region instead of locating a small button.
+- The user can click a large left or right navigation region instead of locating a small button; each region should continue across its half of the viewer, from the photograph to the edge of the viewport.
 - The enlarged photograph remains the focus of the screen.
+- Use the site's restrained white canvas, small utility typography and generous whitespace as broad tonal references.
 
 Do not copy the site's branding, assets or distinctive composition. Recreate only the underlying interaction principle in an original design appropriate to Inga.
 
@@ -97,8 +100,11 @@ Reference: [ryan-prince.com](https://www.ryan-prince.com/)
 - The Portraiture landing page should introduce and link to Families and Women using a selected cover image for each gallery.
 - Each of the six image galleries should have a clean overview of its photographs.
 - The overview should make it easy to scan the collection without becoming visually busy.
+- Use a deterministic CSS grid with a fixed column count at each breakpoint rather than masonry or independently sized rows.
+- Place every thumbnail in a consistent row-height cell and centre it both vertically and horizontally, preserving its natural aspect ratio without cropping.
+- Keep thumbnails deliberately small with generous white space around them.
 - Selecting a photograph should open a spacious, near-full-screen enlargement experience.
-- Thumbnail treatment, column count and spacing should respond to the supplied image orientations and the eventual art direction.
+- Column count and spacing should respond to viewport size while staying consistent within each row.
 - An enlarged photograph should return the visitor to the same gallery and, where practical, the same scroll position when closed.
 
 ## Source Image Inventory
@@ -159,13 +165,13 @@ When a source width falls between configured candidates, include its intrinsic w
 - Preserve each photograph's natural aspect ratio in gallery overviews. Do not force square or uniform crops.
 - Create a dedicated art-directed cover crop only when the design genuinely requires one and Lucas has approved the crop.
 - Convert sources with a reliable embedded colour profile to sRGB for public output.
-- A metadata scan indicates that 30 current sources have neither an embedded ICC profile nor an EXIF sRGB declaration: all seven Beauty Queen of Leenane images, thirteen Macro images and ten Women images. Do not blindly colour-convert these untagged sources. Visually verify representative files and explicitly approve the working-profile assumption before applying it to the affected group.
+- A metadata scan indicates that 30 current sources have neither an embedded ICC profile nor an EXIF sRGB declaration: all seven Beauty Queen of Leenane images, thirteen Macro images and ten Women images. Representative files from the affected groups were visually compared and Lucas approved treating the current untagged sources as sRGB for this build on 18 August 2026. This remains a documented working-profile assumption rather than evidence about the sources' original colour space.
 - A standard sRGB output profile may be embedded where it improves reliable browser colour reproduction; it is useful colour information rather than private metadata.
 - Remove GPS data and unnecessary EXIF or other private metadata from public derivatives.
 - Use visual quality settings suitable for a photography portfolio rather than choosing compression solely for the smallest possible file.
 - Visually compare representative portraits, macro photographs, landscapes, monochrome work and detailed documentary photographs before applying final encoder settings to the complete collection.
 
-Exact JPEG, WebP and AVIF quality values are deliberately not fixed at the brief stage. Establish them during implementation by generating representative samples, comparing them with the source and, where useful, a Photoshop reference export, and inspecting them both at 100% and at their intended browser display sizes. Check fine detail, gradients, skin tones, monochrome transitions, sharpening, colour fidelity and visible compression artefacts. Record the approved processor, resize kernel, output formats and quality values in the project documentation once the comparison is complete.
+Lucas approved the representative proof comparison on 18 August 2026. The approved derivative settings are Sharp 0.35.3 with libvips 8.18.3, Lanczos 3 reduction, `withoutEnlargement: true` and `fastShrinkOnLoad: false`; JPEG quality 90 with mozjpeg and 4:4:4 chroma subsampling; WebP quality 86 with effort 5 and smart subsampling; and AVIF quality 65 with effort 5 and 4:4:4 chroma subsampling. Public derivatives are written with an sRGB ICC profile and without source EXIF, XMP or IPTC metadata. Revisit these values only through another representative visual comparison rather than changing them implicitly.
 
 ### Loading and Layout
 
@@ -201,6 +207,7 @@ Private hi-res source
 
 - Divide the main viewer interaction area into large previous and next regions.
 - Show an appropriate left- or right-pointing cursor according to the available action.
+- Extend each pointer region across its full half of the viewer so the cursor and action remain available over the image and out to the viewport edge.
 - Clicking the left region opens the previous photograph.
 - Clicking the right region opens the next photograph.
 - At the beginning or end of a gallery, do not display an action that is unavailable unless the gallery is deliberately configured to loop.
@@ -271,7 +278,7 @@ A likely direction is one carefully chosen opening photograph, Inga's name, a sh
 - Trap and restore focus appropriately if the enlargement is implemented as a modal dialog.
 - Support keyboard, pointer and touch navigation.
 - Provide useful alternative text for meaningful photographs, with the wording agreed as part of content preparation.
-- Maintain sufficient text and focus-indicator contrast against the warm white background.
+- Maintain sufficient text and focus-indicator contrast against the white background.
 - Do not disable browser zoom.
 
 ## Image Performance
@@ -305,10 +312,10 @@ A likely direction is one carefully chosen opening photograph, Inga's name, a sh
 
 ## Decisions Still Required
 
-- Exact typography and warm-white colour value.
-- Whether any galleries loop from the final image back to the first.
-- Whether enlargement views need unique URLs that can be bookmarked or shared.
-- Whether captions are always visible, optionally revealed or used only where supplied.
+- Exact typography, text colour and spacing scale.
+- Whether the current non-looping gallery behaviour should be changed.
+- Whether the current enlargement behaviour should be extended with unique bookmarkable or shareable URLs; it does not currently modify browser history.
+- Whether the current caption policy should be changed; captions are currently shown only where content is supplied.
 - Whether image protection measures such as disabled context menus or watermarks are wanted; these have usability costs and cannot prevent determined copying.
 - Analytics and cookie requirements.
 - Privacy, copyright and any other required policy content.
@@ -321,10 +328,11 @@ A likely direction is one carefully chosen opening photograph, Inga's name, a sh
 - Documentary is a landing page that leads to Kalk Bay and Beauty Queen of Leenane.
 - Portraiture is a landing page that leads to Families and Women.
 - Landscape and Macro are available as direct galleries.
-- The interface uses a warm white background and restrained visual styling.
-- Gallery overview pages remain clear across mobile and desktop layouts.
+- The interface uses a white or visually indistinguishable near-white background and restrained visual styling.
+- Gallery and section overview pages use small, uncropped thumbnails centred within consistent CSS-grid cells.
+- Each responsive grid uses a consistent column count within a row and remains clear across mobile and desktop layouts.
 - Selecting a photograph opens an uncluttered enlarged view.
-- Pointer users can navigate using large cursor-arrow regions without finding small previous or next buttons.
+- Pointer users can navigate using half-viewport cursor-arrow regions that extend across the photograph to the viewport edge, without finding small previous or next buttons.
 - Keyboard users can navigate and close the viewer.
 - Touch users can swipe or use large tap regions.
 - No thumbnail carousel appears below enlarged photographs.
