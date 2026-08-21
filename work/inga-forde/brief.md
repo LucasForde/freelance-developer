@@ -98,8 +98,8 @@ Reference: [ryan-prince.com](https://www.ryan-prince.com/)
 
 - Do not use image-card indexes for Photography, Documentary or Portraiture; navigation to the six galleries belongs in the Photography submenu.
 - Each of the six image galleries should have a clean overview of its photographs.
-- Begin each gallery page directly with its thumbnail grid beneath the primary navigation. Do not show breadcrumbs, a category eyebrow, a visible gallery title or a photograph count above the grid.
-- Retain the gallery name in the document title and a visually hidden page heading so removing the visible header does not remove the page's accessible identity.
+- Place one compact breadcrumb-like page title between the primary navigation and thumbnail grid. Use `Documentary / Kalk Bay`, `Documentary / Beauty Queen of Leenane`, `Portraiture / Families` and `Portraiture / Women`; Landscape and Macro use their single gallery name.
+- Render the title in the same small uppercase, letter-spaced style used for `DOCUMENTARY` and `PORTRAITURE` in the Photography submenu. Do not restore the full Home/Photography breadcrumb trail, oversized gallery heading, category eyebrow or photograph count.
 - The overview should make it easy to scan the collection without becoming visually busy.
 - Use a deterministic CSS grid rather than masonry or independently sized rows.
 - Show five equal square thumbnails per row on desktop. Reduce to three and then two columns where the viewport cannot support five usable targets.
@@ -333,7 +333,7 @@ A likely direction is one carefully chosen opening photograph, Inga's name, a sh
 - Landscape and Macro are available as direct galleries.
 - The interface uses a white or visually indistinguishable near-white background and restrained visual styling.
 - Gallery pages use centred square thumbnail crops in a consistent five-column desktop grid.
-- Gallery pages contain no visible breadcrumb trail, category label, gallery heading or photograph count above the grid.
+- Gallery pages use a compact submenu-style title such as `DOCUMENTARY / KALK BAY`; they contain no full breadcrumb trail, oversized heading or photograph count.
 - Gallery rows and columns use the same close, breathable gap; the grid reduces to three and then two columns on narrower screens.
 - Thumbnail cropping does not affect the natural aspect ratio of enlarged photographs.
 - Selecting a photograph opens an uncluttered enlarged view.
